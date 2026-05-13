@@ -51,28 +51,30 @@ const ARViewer = () => {
       <div className="flex-1 relative h-[50vh] md:h-full flex items-center justify-center">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,0,0.1),transparent_70%)] opacity-50" />
         
-        {/* Model Viewer */}
-        <model-viewer
-          src={item.model}
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          rotation-per-second="30deg"
-          shadow-intensity="1"
-          exposure="1.2"
-          loading="eager"
-          style={{ width: '100%', height: '100%', cursor: 'grab' }}
-          className="floating"
-        >
-          {/* Custom AR Button - Positioned at the bottom */}
-          <button 
-            slot="ar-button" 
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[85%] md:w-auto px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-3 cyber-button transition-all hover:scale-105 active:scale-95 z-50"
+        {/* Model Viewer Container */}
+        <div className="relative w-full h-full flex flex-col items-center justify-center">
+          <model-viewer
+            src={item.model}
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            rotation-per-second="30deg"
+            shadow-intensity="1"
+            exposure="1.2"
+            loading="eager"
+            style={{ width: '100%', height: '100%', cursor: 'grab' }}
+            className="floating"
           >
-             <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
-          </button>
-        </model-viewer>
+            {/* Custom AR Button - Positioned with Slot */}
+            <button 
+              slot="ar-button" 
+              className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[85%] px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-3 cyber-button z-50 whitespace-nowrap"
+            >
+               <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
+            </button>
+          </model-viewer>
+        </div>
 
         {/* Scan Glow Effect */}
         <div className="absolute bottom-20 w-[300px] h-[300px] bg-orange-500/10 blur-[100px] rounded-full -z-10 animate-pulse" />
