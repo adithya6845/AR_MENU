@@ -20,9 +20,9 @@ const Home = () => {
     <div className="min-h-screen bg-[#050A15] flex flex-col">
       <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
 
-      {/* Hero Section with Background Video */}
-      <div className="relative w-full overflow-hidden pt-32 pb-16 min-h-[75vh] flex flex-col items-center justify-center">
-        {/* Background Video constrained to this section */}
+      {/* Hero Section with Video Background (Blue Line to Blue Line) */}
+      <div className="relative w-full h-[65vh] md:h-[85vh] flex flex-col items-center justify-center px-6 overflow-hidden">
+        {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
             ref={videoRef}
@@ -30,44 +30,44 @@ const Home = () => {
             loop
             muted={isMuted}
             playsInline
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover object-[center_40%] opacity-70"
           >
             <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
           </video>
-          {/* Gradients to blend edges */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050A15] via-transparent to-[#050A15] px-6" />
-          <div className="absolute inset-0 bg-black/40" />
+          {/* Subtle Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050A15] via-transparent to-[#050A15]" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
 
-        {/* Content Over Video */}
-        <div className="relative z-10 px-6 text-center max-w-4xl mx-auto">
+        {/* Content Layered on Video */}
+        <div className="relative z-10 text-center max-w-4xl mx-auto pt-10">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass-dark text-[8px] font-black uppercase tracking-[0.4em] text-orange-400 mb-8 border border-white/5">
+            <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass-dark text-[10px] font-black uppercase tracking-[0.4em] text-orange-400 mb-8 border border-white/5">
               AR-Powered Dining
             </span>
-            <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter font-serif italic text-white mb-12">
+            <h1 className="text-6xl md:text-[110px] font-black leading-[0.9] tracking-tighter font-serif italic text-white mb-10">
               Taste With <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
                 Your Eyes.
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-2xl">
+            <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-2xl px-4">
               Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
             </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Action & Stats Section (Below Video) */}
-      <div className="relative z-20 px-6 py-16 text-center bg-[#050A15]">
+      {/* Action & Stats Section (Below Blue Line) */}
+      <div className="relative z-20 px-6 py-12 text-center bg-[#050A15]">
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
           <Link 
             to="/menu" 
-            className="px-14 py-6 bg-gradient-to-r from-orange-600 to-orange-500 text-black font-black text-xl rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center gap-4"
+            className="px-14 py-6 bg-orange-500 text-black font-black text-xl rounded-2xl transition-all shadow-2xl hover:scale-105 active:scale-95 flex items-center gap-4"
           >
             Explore Menu
             <span className="text-2xl">→</span>
