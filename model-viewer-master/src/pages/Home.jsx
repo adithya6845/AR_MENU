@@ -28,7 +28,7 @@ const Home = () => {
           loop
           muted={isMuted}
           playsInline
-          className="w-full h-full object-cover object-center scale-100 md:scale-105 opacity-60"
+          className="absolute min-w-full min-h-full w-auto h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-cover opacity-60 max-sm:scale-100 scale-105"
         >
           <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
         </video>
