@@ -50,7 +50,7 @@ const ARViewer = () => {
       </button>
 
       {/* LEFT SIDE: 3D Model Viewport */}
-      <div className="flex-1 relative h-[60vh] md:h-full flex flex-col items-center justify-center p-6 pt-24 md:pt-6">
+      <div className="flex-1 relative h-[60vh] md:h-full flex flex-col items-center justify-center p-6 md:pt-6">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,0,0.1),transparent_70%)] opacity-50" />
         
         {/* Model Viewer */}
