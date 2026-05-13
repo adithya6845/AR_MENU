@@ -21,18 +21,18 @@ const Home = () => {
       <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
       
       {/* Cinematic Background Video */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#050A15]">
         <video
           ref={videoRef}
           autoPlay
           loop
           muted={isMuted}
           playsInline
-          className="w-full h-full object-cover opacity-60"
+          className="w-full h-full object-cover object-center scale-100 md:scale-105 opacity-60"
         >
           <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/80 via-transparent to-[#050A15]/80 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/80 via-transparent to-[#050A15]/80 backdrop-blur-[1px]" />
       </div>
 
       {/* Floating Particles Simulation */}
