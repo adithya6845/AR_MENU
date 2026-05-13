@@ -17,111 +17,82 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center text-center px-6 mesh-gradient">
+    <div className="min-h-screen bg-[#050A15] flex flex-col pt-24">
       <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
-      
-      {/* Cinematic Background Video */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[#050A15]">
-        <div className="absolute inset-0 flex items-center justify-center">
+
+      {/* 1. Header Section */}
+      <div className="relative z-20 px-6 mb-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass-dark text-[8px] font-black uppercase tracking-[0.4em] text-orange-400 mb-6 border border-white/5">
+            AR-Powered Dining
+          </span>
+          <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter font-serif italic text-white">
+            Taste With <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
+              Your Eyes.
+            </span>
+          </h1>
+        </motion.div>
+      </div>
+
+      {/* 2. Video & Description Section */}
+      <div className="relative w-full overflow-hidden mb-8 group">
+        <div className="max-w-7xl mx-auto relative h-[40vh] md:h-[60vh]">
           <video
             ref={videoRef}
             autoPlay
             loop
             muted={isMuted}
             playsInline
-            className="w-full h-full object-cover md:object-cover opacity-60 transition-all duration-700
-                       max-sm:h-auto max-sm:w-[150%] max-sm:max-w-none"
+            className="w-full h-full object-cover md:rounded-3xl shadow-2xl transition-all"
           >
             <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
           </video>
+          
+          {/* Text Overlay on Video */}
+          <div className="absolute inset-0 flex items-center justify-center px-8 bg-black/20 md:rounded-3xl">
+            <p className="text-xl md:text-3xl text-white font-light text-center max-w-2xl leading-relaxed drop-shadow-2xl">
+              Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
+            </p>
+          </div>
         </div>
-        {/* Soft atmospheric overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050A15] via-transparent to-[#050A15] opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/90 via-[#050A15]/40 to-[#050A15]/90 backdrop-blur-[1px]" />
       </div>
 
-      {/* Floating Particles Simulation */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ 
-              opacity: 0, 
-              x: Math.random() * 100 + '%', 
-              y: Math.random() * 100 + '%' 
-            }}
-            animate={{ 
-              opacity: [0, 0.4, 0],
-              y: ['-10%', '110%'],
-            }}
-            transition={{ 
-              duration: Math.random() * 10 + 10, 
-              repeat: Infinity, 
-              ease: "linear",
-              delay: Math.random() * 5
-            }}
-            className="absolute w-1 h-1 bg-orange-400 rounded-full blur-[1px]"
-          />
-        ))}
-      </div>
+      {/* 3. Action & Stats Section */}
+      <div className="relative z-20 px-6 pb-20 text-center">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+          <Link 
+            to="/menu" 
+            className="px-14 py-6 bg-gradient-to-r from-orange-600 to-orange-500 text-black font-black text-xl rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center gap-4"
+          >
+            Explore Menu
+            <span className="text-2xl">→</span>
+          </Link>
+          <button 
+            onClick={() => setQRModalOpen(true)}
+            className="px-14 py-6 glass-dark border border-white/10 hover:border-white/30 text-white font-black text-xl rounded-2xl transition-all flex items-center gap-4"
+          >
+            Try AR Demo
+          </button>
+        </div>
 
-      <div className="relative z-20 max-w-5xl mx-auto pt-20">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        >
-          <span className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full glass-dark text-[10px] font-black uppercase tracking-[0.4em] text-orange-400 mb-10 border border-white/5 animate-pulse">
-            <span className="w-2 h-2 bg-orange-500 rounded-full shadow-[0_0_15px_rgba(255,107,0,0.8)]" />
-            AR-Powered Dining
-          </span>
-          
-          <h1 className="text-7xl md:text-[120px] font-black mb-10 leading-[0.95] tracking-tighter font-serif italic">
-            Taste With <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
-              Your Eyes.
-            </span>
-          </h1>
-          
-          <p className="text-2xl text-white/60 mb-16 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">
-            Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
-            <Link 
-              to="/menu" 
-              className="cyber-button px-14 py-6 bg-orange-500 text-black font-black text-xl rounded-2xl transition-all shadow-[0_20px_50px_rgba(255,107,0,0.3)] flex items-center gap-4 hover:scale-105 active:scale-95"
-            >
-              Explore Menu
-              <span className="text-2xl">→</span>
-            </Link>
-            <button 
-              onClick={() => setQRModalOpen(true)}
-              className="cyber-button px-14 py-6 glass-dark border border-white/10 hover:border-white/30 text-white font-black text-xl rounded-2xl transition-all flex items-center gap-4 hover:bg-white/5"
-            >
-              Try AR Now 📱
-            </button>
-          </div>
-
-          {/* Futuristic Stats Bar */}
-          <div className="grid grid-cols-3 gap-16 max-w-2xl mx-auto pt-16 border-t border-white/10 backdrop-blur-sm">
-            {[
-              { val: '13', label: 'AR Dishes' },
-              { val: '4.8★', label: 'Rating' },
-              { val: '100%', label: 'AR-Enabled' }
-            ].map((stat, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.2 }}
-              >
-                <div className="text-4xl font-black mb-2 tracking-tight text-white">{stat.val}</div>
-                <div className="text-[10px] uppercase tracking-[0.3em] text-orange-500/60 font-black">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Futuristic Stats */}
+        <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto pt-8 border-t border-white/5">
+          {[
+            { val: '13+', label: 'AR DISHES' },
+            { val: '4.8', label: 'GUEST RATING' },
+            { val: '100%', label: 'AR ENABLED' }
+          ].map((stat, i) => (
+            <div key={i}>
+              <div className="text-2xl font-black text-white">{stat.val}</div>
+              <div className="text-[8px] uppercase tracking-widest text-orange-500/60 font-bold">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Floating Scroll Indicator */}
