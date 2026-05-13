@@ -1,11 +1,20 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import QRCodeModal from '../components/QRCodeModal';
 import SEO from '../components/SEO';
 
 const Home = () => {
   const [isQRModalOpen, setQRModalOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef(null);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center text-center px-6 mesh-gradient">
@@ -14,15 +23,16 @@ const Home = () => {
       {/* Cinematic Background Video */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
-          className="w-full h-full object-cover opacity-30 grayscale-[30%]"
+          className="w-full h-full object-cover opacity-60"
         >
-          <source src="/Vedio/WhatsApp Video 2026-05-13 at 5.47.17 PM.mp4" type="video/mp4" />
+          <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/95 via-[#050A15]/70 to-[#050A15]/95 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/80 via-transparent to-[#050A15]/80 backdrop-blur-[2px]" />
       </div>
 
       {/* Floating Particles Simulation */}
@@ -120,6 +130,30 @@ const Home = () => {
       </motion.div>
 
       <QRCodeModal isOpen={isQRModalOpen} onClose={() => setQRModalOpen(false)} />
+
+      {/* Audio Control Toggle */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={toggleMute}
+        className="fixed bottom-10 right-10 z-50 p-5 rounded-full glass-dark border border-white/10 text-white/80 hover:text-orange-400 transition-colors shadow-2xl group"
+      >
+        {isMuted ? (
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+        ) : (
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+        )}
+        <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 px-3 py-1 rounded bg-black/80 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/5">
+          {isMuted ? "Unmute Cinematic Experience" : "Mute Background"}
+        </span>
+      </motion.button>
     </div>
   );
 };
