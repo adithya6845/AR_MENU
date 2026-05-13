@@ -11,11 +11,17 @@ const Home = () => {
     <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center text-center px-6 mesh-gradient">
       <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
       
-      {/* Cinematic Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 grayscale-[20%]"
-        style={{ backgroundImage: 'url("/restaurant_hero.png")' }}
-      >
+      {/* Cinematic Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-30 grayscale-[30%]"
+        >
+          <source src="/Vedio/WhatsApp Video 2026-05-13 at 5.47.17 PM.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/95 via-[#050A15]/70 to-[#050A15]/95 backdrop-blur-sm" />
       </div>
 
@@ -56,14 +62,14 @@ const Home = () => {
           </span>
           
           <h1 className="text-7xl md:text-[120px] font-black mb-10 leading-[0.95] tracking-tighter font-serif italic">
-            See Your Food <br />
+            Taste With <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
-              Before You Bite
+              Your Eyes.
             </span>
           </h1>
           
           <p className="text-2xl text-white/60 mb-16 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">
-            Experience the next generation of culinary storytelling. Point your phone at the table and watch our signature dishes come to life in stunning 3D.
+            Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
