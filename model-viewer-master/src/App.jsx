@@ -16,18 +16,18 @@ const Navbar = ({ onCartClick }) => {
   if (location.pathname.startsWith('/ar/')) return null;
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-lg bg-[#0A0F1A]/80 border-b border-white/5">
-      <Link to="/" className="text-2xl font-black tracking-tighter flex items-center gap-2">
-        <div className="bg-[#C06C50] w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-[#C06C50]/20">🍔</div>
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-3 md:px-10 md:py-4 flex justify-between items-center backdrop-blur-lg bg-[#0A0F1A]/80 border-b border-white/5">
+      <Link to="/" className="text-xl md:text-2xl font-black tracking-tighter flex items-center gap-2">
+        <div className="bg-[#C06C50] w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-lg md:text-xl shadow-lg shadow-[#C06C50]/20">🍔</div>
         <span className="text-[#F5F3EF] uppercase tracking-tight font-serif">AR <span className="text-[#C06C50]">Bites</span></span>
       </Link>
       
-      <div className="flex items-center gap-10">
-        <Link to="/" className={`text-sm font-bold transition-colors ${location.pathname === '/' ? 'text-[#C06C50] border-b-2 border-[#C06C50] pb-1' : 'text-[#E8DCC2]/60 hover:text-white'}`}>Home</Link>
-        <Link to="/menu" className={`text-sm font-bold transition-colors ${location.pathname === '/menu' ? 'text-[#C06C50] border-b-2 border-[#C06C50] pb-1' : 'text-[#E8DCC2]/60 hover:text-white'}`}>Menu</Link>
+      <div className="flex items-center gap-6 md:gap-10">
+        <Link to="/" className={`text-xs md:text-sm font-bold transition-colors ${location.pathname === '/' ? 'text-[#C06C50] border-b-2 border-[#C06C50] pb-1' : 'text-[#E8DCC2]/60 hover:text-white'}`}>Home</Link>
+        <Link to="/menu" className={`text-xs md:text-sm font-bold transition-colors ${location.pathname === '/menu' ? 'text-[#C06C50] border-b-2 border-[#C06C50] pb-1' : 'text-[#E8DCC2]/60 hover:text-white'}`}>Menu</Link>
         <button 
           onClick={onCartClick}
-          className="relative text-sm font-bold text-[#E8DCC2]/60 hover:text-white transition-colors"
+          className="relative text-xs md:text-sm font-bold text-[#E8DCC2]/60 hover:text-white transition-colors"
         >
           Cart
           {totalItems > 0 && (
@@ -52,7 +52,7 @@ function App() {
         
         <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-        <main className="pt-24 min-h-screen">
+        <main className="pt-16 md:pt-24 min-h-screen">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
