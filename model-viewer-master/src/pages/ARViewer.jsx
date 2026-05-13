@@ -119,25 +119,25 @@ const ARViewer = () => {
 
           {/* Ingredient Customization */}
           <div className="mb-12">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">Customize Ingredients</h3>
-              <span className="text-[9px] text-orange-500/60 font-bold uppercase tracking-widest">Tap to remove</span>
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-white/40">Customize Ingredients</h3>
+              <span className="text-[10px] text-orange-500 font-black uppercase tracking-[0.3em]">Tap to remove</span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {item.ingredients.map((ing, i) => (
                 <button 
                   key={i}
                   onClick={() => toggleIngredient(ing)}
-                  className={`px-5 py-3 rounded-2xl text-[11px] font-black transition-all border flex items-center gap-3 group ${
+                  className={`px-6 py-4 rounded-full text-[12px] font-black transition-all border flex items-center gap-4 group ${
                     selectedIngredients.includes(ing)
-                      ? 'bg-white/5 text-white/80 border-white/10 hover:border-orange-500/30'
-                      : 'bg-red-500/10 text-red-400/40 border-red-500/20 line-through'
+                      ? 'bg-white/5 text-white/90 border-white/10 hover:border-orange-500/30 shadow-lg'
+                      : 'bg-red-500/5 text-white/20 border-white/5 line-through opacity-40'
                   }`}
                 >
-                  <div className={`w-2 h-2 rounded-full ${
-                    selectedIngredients.includes(ing) ? 'bg-orange-500 animate-pulse' : 'bg-red-500/30'
+                  <div className={`w-2.5 h-2.5 rounded-full shadow-[0_0_10px_rgba(255,107,0,0.5)] ${
+                    selectedIngredients.includes(ing) ? 'bg-orange-500' : 'bg-white/10'
                   }`} />
-                  {ing}
+                  <span className="truncate">{ing}</span>
                 </button>
               ))}
             </div>
