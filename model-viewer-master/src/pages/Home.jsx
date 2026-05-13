@@ -17,55 +17,53 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050A15] flex flex-col pt-24">
+    <div className="min-h-screen bg-[#050A15] flex flex-col">
       <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
 
-      {/* 1. Header Section */}
-      <div className="relative z-20 px-6 mb-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass-dark text-[8px] font-black uppercase tracking-[0.4em] text-orange-400 mb-6 border border-white/5">
-            AR-Powered Dining
-          </span>
-          <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter font-serif italic text-white">
-            Taste With <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
-              Your Eyes.
-            </span>
-          </h1>
-        </motion.div>
-      </div>
+      {/* Hero Section with Background Video */}
+      <div className="relative w-full overflow-hidden pt-32 pb-16 min-h-[75vh] flex flex-col items-center justify-center">
+        {/* Background Video constrained to this section */}
+        <div className="absolute inset-0 z-0">
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            className="w-full h-full object-cover opacity-60"
+          >
+            <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
+          </video>
+          {/* Gradients to blend edges */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050A15] via-transparent to-[#050A15] px-6" />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
 
-      {/* 2. Video & Description Section */}
-      <div className="relative w-full z-10 flex flex-col items-center">
-        <div className="w-full max-w-4xl px-4">
-          <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_0_50px_rgba(255,107,0,0.15)] border border-white/5">
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full h-full object-contain bg-black"
-            >
-              <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
-            </video>
-            
-            {/* Soft text overlay */}
-            <div className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-t from-black/40 to-transparent">
-              <p className="text-lg md:text-2xl text-white/90 font-medium text-center max-w-xl leading-relaxed">
-                Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
-              </p>
-            </div>
-          </div>
+        {/* Content Over Video */}
+        <div className="relative z-10 px-6 text-center max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <span className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass-dark text-[8px] font-black uppercase tracking-[0.4em] text-orange-400 mb-8 border border-white/5">
+              AR-Powered Dining
+            </span>
+            <h1 className="text-6xl md:text-[100px] font-black leading-[0.9] tracking-tighter font-serif italic text-white mb-12">
+              Taste With <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
+                Your Eyes.
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-2xl">
+              Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
+            </p>
+          </motion.div>
         </div>
       </div>
 
-      {/* 3. Action & Stats Section */}
-      <div className="relative z-20 px-6 pb-20 text-center">
+      {/* Action & Stats Section (Below Video) */}
+      <div className="relative z-20 px-6 py-16 text-center bg-[#050A15]">
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
           <Link 
             to="/menu" 
