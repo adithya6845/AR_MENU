@@ -1,0 +1,121 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import QRCodeModal from '../components/QRCodeModal';
+import SEO from '../components/SEO';
+
+const Home = () => {
+  const [isQRModalOpen, setQRModalOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center text-center px-6 mesh-gradient">
+      <SEO title="Home" description="The future of dining is here. See your food in 3D and AR before you order." />
+      
+      {/* Cinematic Background Image */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 grayscale-[20%]"
+        style={{ backgroundImage: 'url("/restaurant_hero.png")' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/95 via-[#050A15]/70 to-[#050A15]/95 backdrop-blur-sm" />
+      </div>
+
+      {/* Floating Particles Simulation */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ 
+              opacity: 0, 
+              x: Math.random() * 100 + '%', 
+              y: Math.random() * 100 + '%' 
+            }}
+            animate={{ 
+              opacity: [0, 0.4, 0],
+              y: ['-10%', '110%'],
+            }}
+            transition={{ 
+              duration: Math.random() * 10 + 10, 
+              repeat: Infinity, 
+              ease: "linear",
+              delay: Math.random() * 5
+            }}
+            className="absolute w-1 h-1 bg-orange-400 rounded-full blur-[1px]"
+          />
+        ))}
+      </div>
+
+      <div className="relative z-20 max-w-5xl mx-auto pt-20">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        >
+          <span className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full glass-dark text-[10px] font-black uppercase tracking-[0.4em] text-orange-400 mb-10 border border-white/5 animate-pulse">
+            <span className="w-2 h-2 bg-orange-500 rounded-full shadow-[0_0_15px_rgba(255,107,0,0.8)]" />
+            AR-Powered Dining
+          </span>
+          
+          <h1 className="text-7xl md:text-[120px] font-black mb-10 leading-[0.95] tracking-tighter font-serif italic">
+            See Your Food <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-orange-600 glow-text">
+              Before You Bite
+            </span>
+          </h1>
+          
+          <p className="text-2xl text-white/60 mb-16 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">
+            Experience the next generation of culinary storytelling. Point your phone at the table and watch our signature dishes come to life in stunning 3D.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
+            <Link 
+              to="/menu" 
+              className="cyber-button px-14 py-6 bg-orange-500 text-black font-black text-xl rounded-2xl transition-all shadow-[0_20px_50px_rgba(255,107,0,0.3)] flex items-center gap-4 hover:scale-105 active:scale-95"
+            >
+              Explore Menu
+              <span className="text-2xl">→</span>
+            </Link>
+            <button 
+              onClick={() => setQRModalOpen(true)}
+              className="cyber-button px-14 py-6 glass-dark border border-white/10 hover:border-white/30 text-white font-black text-xl rounded-2xl transition-all flex items-center gap-4 hover:bg-white/5"
+            >
+              Try AR Now 📱
+            </button>
+          </div>
+
+          {/* Futuristic Stats Bar */}
+          <div className="grid grid-cols-3 gap-16 max-w-2xl mx-auto pt-16 border-t border-white/10 backdrop-blur-sm">
+            {[
+              { val: '13', label: 'AR Dishes' },
+              { val: '4.8★', label: 'Rating' },
+              { val: '100%', label: 'AR-Enabled' }
+            ].map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + i * 0.2 }}
+              >
+                <div className="text-4xl font-black mb-2 tracking-tight text-white">{stat.val}</div>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-orange-500/60 font-black">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Floating Scroll Indicator */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+      >
+        <span className="text-[10px] uppercase tracking-widest font-bold">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-white to-transparent" />
+      </motion.div>
+
+      <QRCodeModal isOpen={isQRModalOpen} onClose={() => setQRModalOpen(false)} />
+    </div>
+  );
+};
+
+export default Home;

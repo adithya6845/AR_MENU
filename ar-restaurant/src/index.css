@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --azul-profundo: #050A15;
+  --cyber-navy: #0A1628;
+  --terracota: #C06C50;
+  --glow-orange: #FF6B00;
+  --blanco-roto: #F5F3EF;
+  --arena-suave: #E8DCC2;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--azul-profundo);
+  color: var(--blanco-roto);
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+}
+
+.mesh-gradient {
+  background: radial-gradient(at 0% 0%, rgba(192, 108, 80, 0.15) 0px, transparent 50%),
+              radial-gradient(at 100% 100%, rgba(48, 92, 125, 0.2) 0px, transparent 50%),
+              radial-gradient(at 50% 50%, rgba(255, 107, 0, 0.05) 0px, transparent 50%);
+}
+
+.glass-dark {
+  background: rgba(10, 22, 40, 0.6);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.holographic-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.holographic-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 60%,
+    transparent 80%
+  );
+  transform: rotate(-45deg);
+  pointer-events: none;
+  animation: holo-shine 6s infinite linear;
+}
+
+@keyframes holo-shine {
+  from { transform: translateX(-100%) rotate(-45deg); }
+  to { transform: translateX(100%) rotate(-45deg); }
+}
+
+.glow-text {
+  text-shadow: 0 0 30px rgba(255, 107, 0, 0.5);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Cyber Button Styling */
+.cyber-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.cyber-button:hover::after {
+  left: 100%;
+}

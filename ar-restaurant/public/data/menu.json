@@ -1,0 +1,200 @@
+[
+  {
+    "id": "burger",
+    "name": "Gourmet Chicken Burger",
+    "price": 649,
+    "ingredients": ["Chicken Patty", "Crispy Lettuce", "Sliced Tomato", "Cheddar Cheese", "Brioche Bun"],
+    "nutrition": {
+      "protein": 35,
+      "carbs": 45,
+      "fats": 25,
+      "calories": 540
+    },
+    "description": "A premium grilled chicken burger with our secret sauce and fresh farm ingredients.",
+    "model": "/models/burger_realistic_free.glb",
+    "category": "Mains",
+    "rating": 4.8,
+    "reviews": 312,
+    "time": "15 min"
+  },
+  {
+    "id": "chicken_meal",
+    "name": "Crispy Chicken Meal",
+    "price": 849,
+    "ingredients": ["Fried Chicken", "Potato Wedges", "Coleslaw", "Honey Mustard"],
+    "nutrition": {
+      "protein": 45,
+      "carbs": 60,
+      "fats": 40,
+      "calories": 820
+    },
+    "description": "Extra crispy deep-fried chicken served with goldened potato wedges and fresh slaw.",
+    "model": "/models/chicken_meal.glb",
+    "category": "Mains",
+    "rating": 4.7,
+    "reviews": 245,
+    "time": "20 min"
+  },
+  {
+    "id": "pizza",
+    "name": "Classic Pepperoni Pizza",
+    "price": 999,
+    "ingredients": ["Hand-tossed Dough", "Mozzarella", "Pepperoni", "Italian Herbs"],
+    "nutrition": {
+      "protein": 28,
+      "carbs": 85,
+      "fats": 35,
+      "calories": 720
+    },
+    "description": "Authentic Italian-style pizza with a crispy crust and premium mozzarella.",
+    "model": "/models/pizza.glb",
+    "category": "Mains",
+    "rating": 4.9,
+    "reviews": 127,
+    "time": "12 min"
+  },
+  {
+    "id": "sushi",
+    "name": "Imperial Sushi Boat",
+    "price": 1899,
+    "ingredients": ["Nigiri Assortment", "Fresh Salmon", "Tuna", "Wasabi", "Pickled Ginger"],
+    "nutrition": {
+      "protein": 40,
+      "carbs": 30,
+      "fats": 15,
+      "calories": 420
+    },
+    "description": "A luxury selection of our finest nigiri sushi, presented on a traditional boat.",
+    "model": "/models/sushi_boat_nigiri.glb",
+    "category": "Japanese",
+    "rating": 4.9,
+    "reviews": 427,
+    "time": "25 min"
+  },
+  {
+    "id": "fish",
+    "name": "Grilled Lemon Fish",
+    "price": 1299,
+    "ingredients": ["White Fish Fillet", "Lemon Butter", "Asparagus", "Baby Potatoes"],
+    "nutrition": {
+      "protein": 55,
+      "carbs": 15,
+      "fats": 20,
+      "calories": 480
+    },
+    "description": "Perfectly seared fish fillet drizzled with a zesty lemon-herb butter sauce.",
+    "model": "/models/fish.glb",
+    "category": "Seafood",
+    "rating": 4.8,
+    "reviews": 156,
+    "time": "18 min"
+  },
+  {
+    "id": "momos",
+    "name": "Steamed Himalayan Momos",
+    "price": 399,
+    "ingredients": ["Minced Filling", "Thin Dough", "Spicy Chutney", "Herbs"],
+    "nutrition": {
+      "protein": 15,
+      "carbs": 40,
+      "fats": 10,
+      "calories": 320
+    },
+    "description": "Authentic steamed dumplings served with a traditional spicy dipping sauce.",
+    "model": "/models/momo_food.glb",
+    "category": "Starters",
+    "rating": 4.7,
+    "reviews": 198,
+    "time": "18 min"
+  },
+  {
+    "id": "breakfast",
+    "name": "Shrek's Morning Feast",
+    "price": 749,
+    "ingredients": ["Waffles", "Eggs", "Bacon", "Swamp Syrup"],
+    "nutrition": {
+      "protein": 30,
+      "carbs": 55,
+      "fats": 35,
+      "calories": 650
+    },
+    "description": "A legendary breakfast platter that will fuel your biggest adventures.",
+    "model": "/models/shrek_breakfast.glb",
+    "category": "Breakfast",
+    "rating": 4.9,
+    "reviews": 512,
+    "time": "15 min"
+  },
+  {
+    "id": "creamed_coffee",
+    "name": "Velvet Cream Latte",
+    "price": 299,
+    "ingredients": ["Espresso", "Steamed Milk", "Heavy Cream", "Nutmeg"],
+    "nutrition": {
+      "protein": 10,
+      "carbs": 25,
+      "fats": 35,
+      "calories": 280
+    },
+    "description": "A rich, velvety coffee experience topped with our signature whipped cream.",
+    "model": "/models/creamed_coffee.glb",
+    "category": "Drinks",
+    "rating": 4.8,
+    "reviews": 192,
+    "time": "5 min"
+  },
+  {
+    "id": "orange_juice",
+    "name": "Fresh Squeezed Orange",
+    "price": 225,
+    "ingredients": ["Valencia Oranges", "Ice"],
+    "nutrition": {
+      "protein": 2,
+      "carbs": 28,
+      "fats": 0,
+      "calories": 120
+    },
+    "description": "100% natural, freshly squeezed orange juice served chilled.",
+    "model": "/models/orange_juice.glb",
+    "category": "Drinks",
+    "rating": 4.7,
+    "reviews": 310,
+    "time": "3 min"
+  },
+  {
+    "id": "espresso",
+    "name": "Artisan Espresso",
+    "price": 175,
+    "ingredients": ["Single Origin Beans", "Crema"],
+    "nutrition": {
+      "protein": 1,
+      "carbs": 2,
+      "fats": 0,
+      "calories": 5
+    },
+    "description": "A concentrated, bold coffee shot for the true purist.",
+    "model": "/models/coffee_cup.glb",
+    "category": "Drinks",
+    "rating": 4.9,
+    "reviews": 154,
+    "time": "2 min"
+  },
+  {
+    "id": "fusion",
+    "name": "Chef's Fusion Platter",
+    "price": 1499,
+    "ingredients": ["Assorted Delicacies", "Seasonal Greens", "Specialty Sauce"],
+    "nutrition": {
+      "protein": 38,
+      "carbs": 42,
+      "fats": 28,
+      "calories": 680
+    },
+    "description": "A unique combination of international flavors curated by our head chef.",
+    "model": "/models/food.glb",
+    "category": "Mains",
+    "rating": 4.8,
+    "reviews": 64,
+    "time": "20 min"
+  }
+]
