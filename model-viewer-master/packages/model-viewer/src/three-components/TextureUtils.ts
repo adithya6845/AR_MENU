@@ -19,7 +19,6 @@ import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import {deserializeUrl, timePasses} from '../utilities.js';
 
-import {ktx2Loader} from './CachingGLTFLoader.js';
 import EnvironmentScene from './EnvironmentScene.js';
 
 export interface EnvironmentMapAndSkybox {
@@ -33,7 +32,6 @@ const GENERATED_SIGMA = 0.04;
 const MAX_SAMPLES = 20;
 
 const HDR_FILE_RE = /\.hdr(\.js)?$/;
-const KTX2_FILE_RE = /\.ktx2(\?|#|$)/;
 
 export default class TextureUtils {
   public lottieLoaderUrl = '';
@@ -89,25 +87,10 @@ export default class TextureUtils {
     return this._lottieLoader;
   }
 
-  async loadImage(url: string, withCredentials: boolean, type?: string):
-      Promise<Texture> {
-    if (type === 'image/ktx2' || KTX2_FILE_RE.test(url)) {
-      return this.loadKTX2(url, withCredentials);
-    }
+  async loadImage(url: string, withCredentials: boolean): Promise<Texture> {
     const texture: Texture = await new Promise<Texture>(
         (resolve, reject) => this.ldrLoader(withCredentials)
                                  .load(url, resolve, () => {}, reject));
-    texture.name = url;
-    texture.flipY = false;
-
-    return texture;
-  }
-
-  private async loadKTX2(url: string, withCredentials: boolean):
-      Promise<Texture> {
-    ktx2Loader.setWithCredentials(withCredentials);
-    const texture: Texture = await new Promise<Texture>(
-        (resolve, reject) => ktx2Loader.load(url, resolve, () => {}, reject));
     texture.name = url;
     texture.flipY = false;
 
@@ -136,7 +119,7 @@ export default class TextureUtils {
       const texture: Texture = await new Promise<Texture>(
           (resolve, reject) => loader.load(
               url,
-              (result: any) => {
+              (result) => {
                 const {renderTarget} =
                     result as QuadRenderer<1016, GainMapDecoderMaterial>;
                 if (renderTarget != null) {

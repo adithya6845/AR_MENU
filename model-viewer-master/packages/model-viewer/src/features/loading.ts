@@ -252,12 +252,10 @@ export const LoadingMixin = <T extends Constructor<ModelViewerElementBase>>(
      * turntable rotation.
      */
     getDimensions(): Vector3D {
-      this[$scene].updateBoundingBoxAndShadowIfDirty();
       return toVector3D(this[$scene].size);
     }
 
     getBoundingBoxCenter(): Vector3D {
-      this[$scene].updateBoundingBoxAndShadowIfDirty();
       return toVector3D(this[$scene].boundingBox.getCenter(new Vector3()));
     }
 
@@ -383,8 +381,7 @@ export const LoadingMixin = <T extends Constructor<ModelViewerElementBase>>(
     };
 
     [$shouldAttemptPreload](): boolean {
-      const extraModels = Array.from(this.querySelectorAll('extra-model'));
-      return !!(this.src || extraModels.length > 0) &&
+      return !!this.src &&
           (this[$shouldDismissPoster] ||
            this.loading === LoadingStrategy.EAGER ||
            (this.reveal === RevealStrategy.AUTO && this[$isElementInViewport]));

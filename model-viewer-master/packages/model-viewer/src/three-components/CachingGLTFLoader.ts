@@ -65,7 +65,7 @@ let dracoDecoderLocation: string;
 const dracoLoader = new DRACOLoader();
 
 let ktx2TranscoderLocation: string;
-export const ktx2Loader = new KTX2Loader();
+const ktx2Loader = new KTX2Loader();
 
 let meshoptDecoderLocation: string;
 let meshoptDecoder: Promise<typeof MeshoptDecoder>|undefined;

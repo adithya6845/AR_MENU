@@ -27,26 +27,17 @@ const $detachAnimation = Symbol('detachAnimation');
 const $paused = Symbol('paused');
 
 interface PlayAnimationOptions {
-  repetitions: number;
-  pingpong: boolean;
-  modelIndex?: number;
+  repetitions: number, pingpong: boolean,
 }
 
 interface AppendAnimationOptions {
-  pingpong?: boolean;
-  repetitions?: number|null;
-  weight?: number;
-  timeScale?: number;
-  fade?: boolean|number;
-  warp?: boolean|number;
-  relativeWarp?: boolean;
-  time?: number|null;
-  modelIndex?: number;
+  pingpong: boolean, repetitions: number|null, weight: number,
+      timeScale: number, fade: boolean|number, warp: boolean|number,
+      relativeWarp: boolean, time: number|null
 }
 
 interface DetachAnimationOptions {
-  fade?: boolean|number;
-  modelIndex?: number;
+  fade: boolean|number
 }
 
 const DEFAULT_PLAY_OPTIONS: PlayAnimationOptions = {
@@ -74,7 +65,6 @@ export declare interface AnimationInterface {
   animationName: string|void;
   animationCrossfadeDuration: number;
   readonly availableAnimations: Array<string>;
-  readonly appendedAnimations: Array<string>;
   readonly paused: boolean;
   readonly duration: number;
   currentTime: number;
@@ -149,7 +139,7 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     }
 
     get paused(): boolean {
-      return this[$scene].isAllAnimationsPaused();
+      return this[$paused];
     }
 
     get currentTime(): number {
@@ -173,21 +163,18 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
       this[$scene].animationTimeScale = value;
     }
 
-    pause(options?: {modelIndex?: number}) {
-      if (options?.modelIndex == null && this.paused) {
+    pause() {
+      if (this[$paused]) {
         return;
       }
 
-      const modelIndex = options?.modelIndex ?? null;
-      this[$scene].pauseAnimation(modelIndex);
-
+      this[$paused] = true;
       this.dispatchEvent(new CustomEvent('pause'));
     }
 
     play(options?: PlayAnimationOptions) {
       if (this.availableAnimations.length > 0) {
-        const modelIndex = options?.modelIndex ?? null;
-        this[$scene].unpauseAnimation(modelIndex);
+        this[$paused] = false;
 
         this[$changeAnimation](options);
 
@@ -198,7 +185,6 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     appendAnimation(animationName: string, options?: AppendAnimationOptions) {
       if (this.availableAnimations.length > 0) {
         this[$paused] = false;
-        this[$scene].unpauseAnimation(options?.modelIndex ?? null);
 
         this[$appendAnimation](animationName, options);
 
@@ -209,7 +195,6 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     detachAnimation(animationName: string, options?: DetachAnimationOptions) {
       if (this.availableAnimations.length > 0) {
         this[$paused] = false;
-        this[$scene].unpauseAnimation(options?.modelIndex ?? null);
 
         this[$detachAnimation](animationName, options);
 
@@ -220,7 +205,7 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     [$onModelLoad]() {
       super[$onModelLoad]();
 
-      this[$scene].pauseAnimation();
+      this[$paused] = true;
 
       if (this.animationName != null) {
         this[$changeAnimation]();
@@ -234,7 +219,7 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     [$tick](_time: number, delta: number) {
       super[$tick](_time, delta);
 
-      if (this.paused ||
+      if (this[$paused] ||
           (!this[$getModelIsVisible]() && !this[$renderer].isPresenting)) {
         return;
       }
@@ -265,8 +250,7 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
           this.animationName,
           this.animationCrossfadeDuration / MILLISECONDS_PER_SECOND,
           mode,
-          repetitions,
-          options.modelIndex);
+          repetitions);
 
       // If we are currently paused, we need to force a render so that
       // the scene updates to the first frame of the new animation
@@ -277,11 +261,12 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     }
 
     [$appendAnimation](
-        animationName: string = '', options: AppendAnimationOptions = {}) {
-      const opts = {...DEFAULT_APPEND_OPTIONS, ...options};
-      const repetitions = opts.repetitions ?? Infinity;
-      const mode = opts.pingpong ? LoopPingPong :
-                                   (repetitions === 1 ? LoopOnce : LoopRepeat);
+        animationName: string = '',
+        options: AppendAnimationOptions = DEFAULT_APPEND_OPTIONS) {
+      const repetitions = options.repetitions ?? Infinity;
+      const mode = options.pingpong ?
+          LoopPingPong :
+          (repetitions === 1 ? LoopOnce : LoopRepeat);
 
       const needsToStop = !!options.repetitions || 'pingpong' in options;
 
@@ -289,14 +274,13 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
           animationName ? animationName : this.animationName,
           mode,
           repetitions,
-          opts.weight,
-          opts.timeScale,
-          opts.fade,
-          opts.warp,
-          opts.relativeWarp,
-          opts.time,
-          needsToStop,
-          opts.modelIndex);
+          options.weight,
+          options.timeScale,
+          options.fade,
+          options.warp,
+          options.relativeWarp,
+          options.time,
+          needsToStop);
 
       // If we are currently paused, we need to force a render so that
       // the scene updates to the first frame of the new animation
@@ -307,12 +291,10 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     }
 
     [$detachAnimation](
-        animationName: string = '', options: DetachAnimationOptions = {}) {
-      const opts = {...DEFAULT_DETACH_OPTIONS, ...options};
+        animationName: string = '',
+        options: DetachAnimationOptions = DEFAULT_DETACH_OPTIONS) {
       this[$scene].detachAnimation(
-          animationName ? animationName : this.animationName,
-          opts.fade,
-          opts.modelIndex);
+          animationName ? animationName : this.animationName, options.fade);
 
       // If we are currently paused, we need to force a render so that
       // the scene updates to the first frame of the new animation

@@ -14,7 +14,6 @@
  */
 
 import {property} from 'lit/decorators.js';
-import {Object3D} from 'three';
 import {USDZExporter} from 'three/examples/jsm/exporters/USDZExporter.js';
 
 import {IS_AR_QUICKLOOK_CANDIDATE, IS_SCENEVIEWER_CANDIDATE, IS_WEBXR_AR_CANDIDATE} from '../constants.js';
@@ -213,7 +212,7 @@ export const ARMixin = <T extends Constructor<ModelViewerElementBase>>(
           await this[$enterARWithWebXR]();
           break;
         case ARMode.SCENE_VIEWER:
-          await this[$openSceneViewer]();
+          this[$openSceneViewer]();
           break;
         default:
           console.warn(
@@ -317,30 +316,10 @@ configuration or device capabilities');
      * Takes a URL and a title string, and attempts to launch Scene Viewer on
      * the current device.
      */
-    async[$openSceneViewer]() {
+    [$openSceneViewer]() {
       const location = self.location.toString();
       const locationUrl = new URL(location);
-      const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-          Array<import('./extra-model.js').ExtraModelElement>;
-      const extraUrlsList =
-          extraModels.map(m => m.src).filter(src => src != null) as
-          Array<string>;
-      const firstSrc = this.src || extraUrlsList[0] || null;
-      if (!firstSrc) {
-        console.warn(
-            'No src or extra-model provided for Scene Viewer fallback.');
-        return;
-      }
-      let modelUrl = new URL(firstSrc, location);
-
-      // Note: While it would be ideal to export and pass a composited GLB for
-      // multi-model scenes, Android's Scene Viewer app cannot securely read
-      // browser-generated `blob:` URIs due to cross-process security
-      // restrictions. Attempting to pass one will cause Scene Viewer to crash
-      // or fail silently. To prevent this, we intentionally skip exporting the
-      // scene and gracefully degrade to serving only the base model's remote
-      // URI.
-
+      const modelUrl = new URL(this.src!, location);
       if (modelUrl.hash)
         modelUrl.hash = '';
       const params = new URLSearchParams(modelUrl.search);
@@ -413,17 +392,9 @@ configuration or device capabilities');
       if (generateUsdz) {
         const location = self.location.toString();
         const locationUrl = new URL(location);
-        const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-            Array<import('./extra-model.js').ExtraModelElement>;
-        const extraUrlsList =
-            extraModels.map(m => m.src).filter(src => src != null) as
-            Array<string>;
-        const firstSrc = this.src || extraUrlsList[0] || null;
-        if (firstSrc) {
-          const srcUrl = new URL(firstSrc, locationUrl);
-          if (srcUrl.hash) {
-            modelUrl.hash = srcUrl.hash;
-          }
+        const srcUrl = new URL(this.src!, locationUrl);
+        if (srcUrl.hash) {
+          modelUrl.hash = srcUrl.hash;
         }
       }
 
@@ -464,8 +435,8 @@ configuration or device capabilities');
 
       await this[$triggerLoad]();
 
-      const {models, shadow, target} = this[$scene];
-      if (models.length === 0 || models[0] == null) {
+      const {model, shadow, target} = this[$scene];
+      if (model == null) {
         return '';
       }
 
@@ -481,25 +452,18 @@ configuration or device capabilities');
 
       const exporter = new USDZExporter();
 
-      const exportGroup = new Object3D();
-      exportGroup.position.copy(target.position);
+      target.remove(model);
+      model.position.copy(target.position);
+      model.updateWorldMatrix(false, true);
 
-      for (const m of models) {
-        target.remove(m);
-        exportGroup.add(m);
-      }
-      exportGroup.updateWorldMatrix(false, true);
-
-      const arraybuffer = await exporter.parseAsync(exportGroup, {
+      const arraybuffer = await exporter.parseAsync(model, {
         maxTextureSize: isNaN(this.arUsdzMaxTextureSize as any) ?
             Infinity :
             Math.max(parseInt(this.arUsdzMaxTextureSize), 16),
       });
 
-      for (const m of models) {
-        exportGroup.remove(m);
-        target.add(m);
-      }
+      model.position.set(0, 0, 0);
+      target.add(model);
 
       const blob = new Blob([arraybuffer], {
         type: 'model/vnd.usdz+zip',

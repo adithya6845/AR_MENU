@@ -29,8 +29,7 @@ const ANIMATED_GLB_DUPLICATE_ANIMATION_NAMES_PATH =
     assetPath('models/DuplicateAnimationNames.glb');
 
 const animationIsPlaying = (element: any, animationName?: string): boolean => {
-  const currentAnimationAction =
-      (element[$scene] as any).currentAnimationActions[0];
+  const {currentAnimationAction} = element[$scene];
 
   if (currentAnimationAction != null &&
       (animationName == null ||
@@ -45,9 +44,8 @@ const animationIsPlaying = (element: any, animationName?: string): boolean => {
 
 const animationWithIndexIsPlaying = (element: any, animationIndex = 0):
     boolean => {
-      const currentAnimationAction =
-          (element[$scene] as any).currentAnimationActions[0];
-      const _currentGLTF = (element[$scene] as any)._currentGLTFs[0];
+      const {currentAnimationAction} = element[$scene];
+      const {_currentGLTF} = element[$scene];
 
       if (currentAnimationAction != null && animationIndex >= 0 &&
           animationIndex < _currentGLTF.animations.length &&
@@ -167,22 +165,6 @@ suite('Animation', () => {
             .to.be.false;
         expect(element.currentTime, 'did not return to beginning of animation!')
             .to.be.equal(0);
-      });
-    });
-
-    suite('when appendAnimation is invoked', () => {
-      setup(async () => {
-        const appendEvent = waitForEvent(element, 'append-animation');
-        element.appendAnimation('Punch', {weight: 1.0});
-        await appendEvent;
-      });
-
-      test('unpauses the model', () => {
-        expect(element.paused).to.be.false;
-      });
-
-      test('adds the animation to appendedAnimations', () => {
-        expect(element.appendedAnimations).to.include('Punch');
       });
     });
 

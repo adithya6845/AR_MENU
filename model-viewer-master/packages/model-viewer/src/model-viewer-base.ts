@@ -44,8 +44,6 @@ const $loaded = Symbol('loaded');
 const $status = Symbol('status');
 const $onFocus = Symbol('onFocus');
 const $onBlur = Symbol('onBlur');
-const $onSlotChange = Symbol('onSlotChange');
-const $onExtraModelChanged = Symbol('onExtraModelChanged');
 
 export const $updateSize = Symbol('updateSize');
 export const $intersectionObserver = Symbol('intersectionObserver');
@@ -198,54 +196,6 @@ export default class ModelViewerElementBase extends ReactiveElement {
   protected[$defaultAriaLabel]: string;
   protected[$clearModelTimeout]: number|null = null;
 
-  [$onSlotChange] = () => {
-    if (!this[$scene])
-      return;
-
-    const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-        Array<import('./features/extra-model.js').ExtraModelElement>;
-    const newExtraUrls =
-        extraModels.map(m => m.src).filter(src => src != null) as string[];
-    const currentExtraUrls = this[$scene].extraUrls || [];
-
-    // Only reload if the declarative list of <extra-model> components has
-    // modified its source set
-    if (newExtraUrls.join(',') !== currentExtraUrls.join(',') ||
-        extraModels.length !== currentExtraUrls.length) {
-      this[$updateSource]();
-    }
-  };
-
-  [$onExtraModelChanged] = (event: Event) => {
-    const customEv = event as CustomEvent;
-    const targetNode = customEv.target as HTMLElement;
-
-    const extraModels = Array.from(this.querySelectorAll('extra-model'));
-    const childIndex = (extraModels as HTMLElement[]).indexOf(targetNode);
-
-    console.log(`[onExtraModelChanged] childIndex: ${childIndex} srcChanged: ${
-        customEv.detail.srcChanged} offset: ${customEv.detail.offset}`);
-
-    if (childIndex === -1)
-      return;
-
-    const modelIndex = this.src ? childIndex + 1 : childIndex;
-
-    if (customEv.detail.srcChanged) {
-      this[$loaded] = false;
-      this[$updateSource]();
-    } else {
-      // Apply Transforms
-      if (this[$scene]) {
-        this[$scene].updateModelTransforms(
-            modelIndex,
-            customEv.detail.offset,
-            customEv.detail.orientation,
-            customEv.detail.scale);
-      }
-    }
-  };
-
   protected[$fallbackResizeHandler] = debounce(() => {
     const boundingRect = this.getBoundingClientRect();
     this[$updateSize](boundingRect);
@@ -349,8 +299,6 @@ export default class ModelViewerElementBase extends ReactiveElement {
             const oldVisibility = this.modelIsVisible;
             this[$isElementInViewport] = entry.isIntersecting;
             this[$announceModelVisibility](oldVisibility);
-            console.log(`IntersectionObserver fired! isIntersecting: ${
-                entry.isIntersecting}`);
             if (this[$isElementInViewport] && !this.loaded) {
               this[$updateSource]();
             }
@@ -390,13 +338,6 @@ export default class ModelViewerElementBase extends ReactiveElement {
 
     this.addEventListener('focus', this[$onFocus]);
     this.addEventListener('blur', this[$onBlur]);
-    this.addEventListener('extra-model-changed', this[$onExtraModelChanged]);
-
-    const defaultSlot =
-        this.shadowRoot!.querySelector('.slot.default slot') as HTMLSlotElement;
-    if (defaultSlot) {
-      defaultSlot.addEventListener('slotchange', this[$onSlotChange]);
-    }
 
     const renderer = this[$renderer];
     renderer.addEventListener(
@@ -427,13 +368,6 @@ export default class ModelViewerElementBase extends ReactiveElement {
 
     this.removeEventListener('focus', this[$onFocus]);
     this.removeEventListener('blur', this[$onBlur]);
-    this.removeEventListener('extra-model-changed', this[$onExtraModelChanged]);
-
-    const defaultSlot =
-        this.shadowRoot!.querySelector('.slot.default slot') as HTMLSlotElement;
-    if (defaultSlot) {
-      defaultSlot.removeEventListener('slotchange', this[$onSlotChange]);
-    }
 
     const renderer = this[$renderer];
     renderer.removeEventListener(
@@ -455,19 +389,11 @@ export default class ModelViewerElementBase extends ReactiveElement {
     // though the value has effectively not changed, so we need to check to make
     // sure that the value has actually changed before changing the loaded flag.
     if (changedProperties.has('src')) {
-      const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-          Array<import('./features/extra-model.js').ExtraModelElement>;
-      const extraUrlsList =
-          extraModels.map(m => m.src).filter(src => src != null) as
-          Array<string>;
-      const extraUrlsMatch =
-          extraUrlsList.join(',') === (this[$scene].extraUrls || []).join(',');
-
-      if (this.src == null && extraModels.length === 0) {
+      if (this.src == null) {
         this[$loaded] = false;
         this[$loadedTime] = 0;
         this[$scene].reset();
-      } else if (this.src !== this[$scene].url || !extraUrlsMatch) {
+      } else if (this.src !== this[$scene].url) {
         this[$loaded] = false;
         this[$loadedTime] = 0;
         this[$updateSource]();
@@ -480,13 +406,7 @@ export default class ModelViewerElementBase extends ReactiveElement {
 
     if (changedProperties.has('generateSchema')) {
       if (this.generateSchema) {
-        const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-            Array<import('./features/extra-model.js').ExtraModelElement>;
-        const extraUrlsList =
-            extraModels.map(m => m.src).filter(src => src != null) as
-            Array<string>;
-        const heroSrc = this.src || extraUrlsList[0] || null;
-        this[$scene].updateSchema(heroSrc);
+        this[$scene].updateSchema(this.src);
       } else {
         this[$scene].updateSchema(null);
       }
@@ -603,8 +523,7 @@ export default class ModelViewerElementBase extends ReactiveElement {
   }
 
   [$shouldAttemptPreload](): boolean {
-    const extraModels = Array.from(this.querySelectorAll('extra-model'));
-    return !!(this.src || extraModels.length > 0) && this[$isElementInViewport];
+    return !!this.src && this[$isElementInViewport];
   }
 
   /**
@@ -674,51 +593,33 @@ export default class ModelViewerElementBase extends ReactiveElement {
    */
   async[$updateSource]() {
     const scene = this[$scene];
-    const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-        Array<import('./features/extra-model.js').ExtraModelElement>;
-    const extraUrlsList =
-        extraModels.map(m => m.src).filter(src => src != null) as Array<string>;
-    const extraUrlsMatch =
-        extraUrlsList.join(',') === (scene.extraUrls || []).join(',');
-
-    console.log(`[$updateSource] called! \nsrc: ${this.src}\nextraUrls: ${
-        extraUrlsList.join(',')}\nloaded: ${this.loaded}`);
-
     if (this.loaded || !this[$shouldAttemptPreload]() ||
-        (this.src === scene.url && extraUrlsMatch)) {
-      console.log('[$updateSource] BAILING OUT EARLY!');
+        this.src === scene.url) {
       return;
     }
 
-    const source = this.src;
-    const heroSrc = source || extraUrlsList[0] || null;
-
     if (this.generateSchema) {
-      scene.updateSchema(heroSrc);
+      scene.updateSchema(this.src);
     }
     this[$updateStatus]('Loading');
+    // If we are loading a new model, we need to stop the animation of
+    // the current one (if any is playing). Otherwise, we might lose
+    // the reference to the scene root and running actions start to
+    // throw exceptions and/or behave in unexpected ways:
     scene.stopAnimation();
 
     const updateSourceProgress =
         this[$progressTracker].beginActivity('model-load');
+    const source = this.src;
     try {
       const srcUpdated = scene.setSource(
           source,
-          extraUrlsList,
           (progress: number) =>
               updateSourceProgress(clamp(progress, 0, 1) * 0.95));
 
       const envUpdated = (this as any)[$updateEnvironment]();
 
       await Promise.all([srcUpdated, envUpdated]);
-
-      const extraModels = Array.from(this.querySelectorAll('extra-model')) as
-          Array<import('./features/extra-model.js').ExtraModelElement>;
-      extraModels.forEach((m, i) => {
-        const modelIndex = this.src ? i + 1 : i;
-        this[$scene].updateModelTransforms(
-            modelIndex, m.offset, m.orientation, m.scale);
-      });
 
       this[$markLoaded]();
       this[$onModelLoad]();
@@ -740,7 +641,7 @@ export default class ModelViewerElementBase extends ReactiveElement {
           });
         });
       });
-      this.dispatchEvent(new CustomEvent('load', {detail: {url: heroSrc}}));
+      this.dispatchEvent(new CustomEvent('load', {detail: {url: source}}));
     } catch (error) {
       this.dispatchEvent(new CustomEvent(
           'error', {detail: {type: 'loadfailure', sourceError: error}}));

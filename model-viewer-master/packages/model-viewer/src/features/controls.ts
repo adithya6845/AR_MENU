@@ -193,7 +193,6 @@ const maxCameraOrbitIntrinsics = (element: ModelViewerElementBase) => {
 };
 
 export const cameraTargetIntrinsics = (element: ModelViewerElementBase) => {
-  element[$scene].updateBoundingBoxAndShadowIfDirty();
   const center = element[$scene].boundingBox.getCenter(new Vector3());
 
   return {

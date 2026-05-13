@@ -216,7 +216,6 @@ suite('Controls', () => {
       expect(fov).to.be.closeTo(DEFAULT_FOV_DEG, .001);
       element.setAttribute('style', 'width: 200px; height: 300px');
       await rafPasses();
-      await timePasses(50);
       await rafPasses();
 
       expect(element.getFieldOfView()).to.be.greaterThan(fov);

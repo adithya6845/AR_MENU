@@ -1,0 +1,30 @@
+import './images-4-up.js';
+import '@polymer/paper-slider';
+import { LitElement } from 'lit';
+import { Dimensions, Visuals } from '../common.js';
+import { ImageAccessor } from '../image-accessor.js';
+export declare class AnalysisView extends LitElement {
+    leftImage: HTMLImageElement | null;
+    rightImage: HTMLImageElement | null;
+    visuals: Visuals | null;
+    protected leftImageAccessor: ImageAccessor | null;
+    protected rightImageAccessor: ImageAccessor | null;
+    protected blackWhiteImageAccessor: ImageAccessor | null;
+    protected deltaImageAccessor: ImageAccessor | null;
+    protected threshold: number;
+    protected worker: Worker;
+    protected port: MessagePort;
+    constructor();
+    onMessage(event: MessageEvent): void;
+    connectedCallback(): Promise<void>;
+    pick(originatingElement: HTMLImageElement): void;
+    get canCompareImages(): boolean;
+    deselect(element: HTMLImageElement): void;
+    select(element: HTMLImageElement): void;
+    enterAnalysisView(): void;
+    exitAnalysisView(): void;
+    reset(): void;
+    get comparisonDimensions(): Dimensions;
+    updated(changedProperties: Map<string, any>): Promise<void>;
+    render(): import("lit-html").TemplateResult<1>;
+}
