@@ -40,24 +40,26 @@ const Home = () => {
       </div>
 
       {/* 2. Video & Description Section */}
-      <div className="relative w-full overflow-hidden mb-8 group">
-        <div className="max-w-7xl mx-auto relative h-[40vh] md:h-[60vh]">
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            className="w-full h-full object-cover md:rounded-3xl shadow-2xl transition-all"
-          >
-            <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
-          </video>
-          
-          {/* Text Overlay on Video */}
-          <div className="absolute inset-0 flex items-center justify-center px-8 bg-black/20 md:rounded-3xl">
-            <p className="text-xl md:text-3xl text-white font-light text-center max-w-2xl leading-relaxed drop-shadow-2xl">
-              Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
-            </p>
+      <div className="relative w-full z-10 flex flex-col items-center">
+        <div className="w-full max-w-4xl px-4">
+          <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_0_50px_rgba(255,107,0,0.15)] border border-white/5">
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted={isMuted}
+              playsInline
+              className="w-full h-full object-contain bg-black"
+            >
+              <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
+            </video>
+            
+            {/* Soft text overlay */}
+            <div className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-t from-black/40 to-transparent">
+              <p className="text-lg md:text-2xl text-white/90 font-medium text-center max-w-xl leading-relaxed">
+                Experience culinary artistry through augmented reality. See every dish in stunning 3D before it arrives at your table.
+              </p>
+            </div>
           </div>
         </div>
       </div>
