@@ -31,6 +31,8 @@ const ARViewer = () => {
     );
   };
 
+  const modelViewerRef = React.useRef(null);
+
   if (!item) return <div className="h-screen flex items-center justify-center bg-[#050A15]">
     <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
   </div>;
@@ -48,34 +50,38 @@ const ARViewer = () => {
       </button>
 
       {/* LEFT SIDE: 3D Model Viewport */}
-        {/* Model Viewer Viewport */}
-        <div className="w-full h-full flex flex-col items-center justify-center p-6">
-          <model-viewer
-            src={item.model}
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            camera-controls
-            auto-rotate
-            rotation-per-second="30deg"
-            shadow-intensity="1"
-            exposure="1.2"
-            loading="eager"
-            style={{ width: '100%', height: '85%', cursor: 'grab' }}
-            className="floating relative"
-          >
-            {/* Built-in AR Button Slot - We use this to trigger the AR logic */}
-            <button 
-              slot="ar-button" 
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-3 cyber-button z-50 transition-all hover:scale-105 active:scale-95"
-            >
-               <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
-            </button>
-          </model-viewer>
-          
-          {/* Help hint for mobile */}
-          <div className="mt-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/20 md:hidden">
-             Tap button above to start AR
-          </div>
+      <div className="flex-1 relative h-[60vh] md:h-full flex flex-col items-center justify-center p-6 pt-24 md:pt-6">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,0,0.1),transparent_70%)] opacity-50" />
+        
+        {/* Model Viewer */}
+        <model-viewer
+          ref={modelViewerRef}
+          src={item.model}
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          rotation-per-second="30deg"
+          shadow-intensity="1"
+          exposure="1.2"
+          loading="eager"
+          style={{ width: '100%', height: '70%', cursor: 'grab' }}
+          className="floating"
+        >
+          {/* Hide the default AR button slot */}
+          <div slot="ar-button" style={{ display: 'none' }} />
+        </model-viewer>
+
+        {/* PROPER AR BUTTON: Positioned below the burger in the flex flow */}
+        <button 
+          onClick={() => modelViewerRef.current?.activateAR()}
+          className="w-[90%] md:w-auto px-12 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-4 cyber-button transition-all hover:scale-105 active:scale-95 z-50 mt-4"
+        >
+           <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
+        </button>
+        
+        <div className="mt-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+           Interact to rotate • Pinch to zoom
         </div>
 
         {/* Scan Glow Effect */}
