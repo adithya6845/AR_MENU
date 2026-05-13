@@ -41,29 +41,40 @@ const Navbar = ({ onCartClick }) => {
   );
 };
 
+const AppContent = ({ isCartOpen, setIsCartOpen }) => {
+  const location = useLocation();
+  const isARPage = location.pathname.startsWith('/ar/');
+
+  return (
+    <div className="bg-black text-white min-h-screen selection:bg-orange-500/30">
+      <Toaster position="top-center" />
+      <Navbar onCartClick={() => setIsCartOpen(true)} />
+      
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <main className={`${isARPage ? 'pt-0' : 'pt-16 md:pt-24'} min-h-screen`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/ar/:id" element={<ARViewer />} />
+        </Routes>
+      </main>
+
+      {!isARPage && (
+        <footer className="p-12 text-center text-gray-600 text-sm">
+          <p>© 2026 ChickenAR Premium Dining. All rights reserved.</p>
+        </footer>
+      )}
+    </div>
+  );
+};
+
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
     <Router>
-      <div className="bg-black text-white min-h-screen selection:bg-orange-500/30">
-        <Toaster position="top-center" />
-        <Navbar onCartClick={() => setIsCartOpen(true)} />
-        
-        <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-
-        <main className="pt-16 md:pt-24 min-h-screen">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/ar/:id" element={<ARViewer />} />
-          </Routes>
-        </main>
-
-        <footer className="p-12 text-center text-gray-600 text-sm">
-          <p>© 2026 ChickenAR Premium Dining. All rights reserved.</p>
-        </footer>
-      </div>
+      <AppContent isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
     </Router>
   );
 }
