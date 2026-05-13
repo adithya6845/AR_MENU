@@ -75,9 +75,9 @@ const ARViewer = () => {
         {/* PROPER AR BUTTON: Positioned below the burger in the flex flow */}
         <button 
           onClick={() => modelViewerRef.current?.activateAR()}
-          className="w-[90%] md:w-auto px-12 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-4 cyber-button transition-all hover:scale-105 active:scale-95 z-50 mt-4"
+          className="w-auto px-10 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_15px_30px_rgba(255,107,0,0.3)] flex items-center justify-center gap-3 cyber-button transition-all hover:scale-105 active:scale-95 z-50 mt-4"
         >
-           <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
+           <span className="text-xl">📱</span> <span className="text-base uppercase tracking-tight">View In Your Space</span>
         </button>
         
         <div className="mt-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
