@@ -22,17 +22,22 @@ const Home = () => {
       
       {/* Cinematic Background Video */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#050A15]">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          className="absolute min-w-full min-h-full w-auto h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-cover opacity-60 max-sm:scale-100 scale-105"
-        >
-          <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/80 via-transparent to-[#050A15]/80 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            className="w-full h-full object-cover md:object-cover opacity-60 transition-all duration-700
+                       max-sm:h-auto max-sm:w-[150%] max-sm:max-w-none"
+          >
+            <source src="/Vedio/WhatsApp%20Video%202026-05-13%20at%205.47.17%20PM.mp4" type="video/mp4" />
+          </video>
+        </div>
+        {/* Soft atmospheric overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050A15] via-transparent to-[#050A15] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050A15]/90 via-[#050A15]/40 to-[#050A15]/90 backdrop-blur-[1px]" />
       </div>
 
       {/* Floating Particles Simulation */}
