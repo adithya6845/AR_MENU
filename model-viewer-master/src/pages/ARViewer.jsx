@@ -48,11 +48,8 @@ const ARViewer = () => {
       </button>
 
       {/* LEFT SIDE: 3D Model Viewport */}
-      <div className="flex-1 relative h-[50vh] md:h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,0,0.1),transparent_70%)] opacity-50" />
-        
-        {/* Model Viewer Container */}
-        <div className="relative w-full h-full flex flex-col items-center justify-center">
+        {/* Model Viewer Viewport */}
+        <div className="w-full h-full flex flex-col items-center justify-center p-6">
           <model-viewer
             src={item.model}
             ar
@@ -63,17 +60,22 @@ const ARViewer = () => {
             shadow-intensity="1"
             exposure="1.2"
             loading="eager"
-            style={{ width: '100%', height: '100%', cursor: 'grab' }}
-            className="floating"
+            style={{ width: '100%', height: '85%', cursor: 'grab' }}
+            className="floating relative"
           >
-            {/* Custom AR Button - Positioned with Slot */}
+            {/* Built-in AR Button Slot - We use this to trigger the AR logic */}
             <button 
               slot="ar-button" 
-              className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[85%] px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-3 cyber-button z-50 whitespace-nowrap"
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-400 text-black font-black rounded-2xl shadow-[0_20px_40px_rgba(255,107,0,0.4)] flex items-center justify-center gap-3 cyber-button z-50 transition-all hover:scale-105 active:scale-95"
             >
                <span className="text-2xl">📱</span> VIEW IN YOUR SPACE
             </button>
           </model-viewer>
+          
+          {/* Help hint for mobile */}
+          <div className="mt-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/20 md:hidden">
+             Tap button above to start AR
+          </div>
         </div>
 
         {/* Scan Glow Effect */}
